@@ -2,6 +2,24 @@
 
 # Kenku FM
 
+## Fork Notice: `kenku-volume-control`
+
+This fork includes the feature from upstream PR [#157](https://github.com/owlbear-rodeo/kenku-fm/pull/157): **Global Volume Slider** by [ArgonautCaptain](https://github.com/ArgonautCaptain).
+
+### What This Fork Adds
+
+- A **Discord Output Volume** slider in the left sidebar (bottom area of the app).
+- Real-time control of the outgoing mixed audio level.
+- A linear range from `0.00` (silent) to `2.00` (200%), with `1.00` as the default.
+- Saved slider value in app settings, so it persists across restarts.
+
+### Implementation Notes
+
+- UI state is stored as `settings.discordOutputVolume`.
+- Renderer sends updates through `window.kenku.setDiscordOutputVolume(volume)`.
+- Main process forwards this via IPC channel `AUDIO_CAPTURE_SET_DISCORD_VOLUME`.
+- The audio capture preload applies the value to the mix `GainNode` (`setDiscordVolume`), changing output level immediately.
+
 Kenku FM is a desktop application for Windows, MacOS and Linux designed to be the easiest way to share music in a Discord voice call.
 
 - Use the Kenku Player interface to share your **local music** and sound effects to your discord calls.
@@ -12,12 +30,6 @@ Kenku FM is a desktop application for Windows, MacOS and Linux designed to be th
 <p align="center">
   <img src="./docs/example.png" alt="Kenku FM Interface" width="738">
 </p>
-
-## Mods 
-
-Added by [ArgonautCaptain](https://github.com/ArgonautCaptain/)
-
-- Created a global volume slider that attenuates the audio level sent to Discord. This feature was added because the bot is too loud by default, preventing the user from fine-tuning the volume of audio tracks.
 
 ## Installing
 
